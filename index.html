@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOEFL ITP Practice — Latihan Soal Orisinal</title>
+  <meta name="description" content="Website latihan TOEFL ITP dengan bank soal orisinal: Listening, Structure and Written Expression, Reading. Timer, skor estimasi, pembahasan, dan riwayat latihan.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="#" class="brand" id="brand-home">
+        <span class="brand-icon"><i data-lucide="graduation-cap"></i></span>
+        <span class="brand-text">TOEFL ITP <em>Practice</em></span>
+      </a>
+      <nav class="topnav">
+        <button class="nav-link" data-nav="home"><i data-lucide="home"></i><span>Beranda</span></button>
+        <button class="nav-link" data-nav="history"><i data-lucide="history"></i><span>Riwayat</span></button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- ============ HOME ============ -->
+    <section id="view-home" class="view">
+      <div class="hero">
+        <div class="hero-badge"><i data-lucide="badge-check"></i> Bank soal orisinal &middot; pola TOEFL ITP</div>
+        <h1>Latihan TOEFL ITP sampai siap tempur</h1>
+        <p class="hero-sub">Satu paket simulasi penuh: Listening, Structure and Written Expression, dan Reading. Dilengkapi timer seperti ujian asli, estimasi skor, dan pembahasan tiap soal dalam Bahasa Indonesia.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg" id="btn-full-sim"><i data-lucide="play"></i> Mulai Simulasi Penuh</button>
+          <button class="btn btn-ghost btn-lg" data-nav="history"><i data-lucide="history"></i> Lihat Riwayat</button>
+        </div>
+        <div class="hero-meta">
+          <div class="meta-item"><i data-lucide="list-checks"></i><span><strong>140 soal</strong> dalam satu paket</span></div>
+          <div class="meta-item"><i data-lucide="timer"></i><span><strong>115 menit</strong> simulasi penuh</span></div>
+          <div class="meta-item"><i data-lucide="message-circle-question"></i><span><strong>Pembahasan</strong> tiap soal</span></div>
+        </div>
+      </div>
+
+      <h2 class="section-title">Pilih mode latihan</h2>
+      <div class="card-grid" id="section-cards"></div>
+
+      <div class="info-box">
+        <i data-lucide="info"></i>
+        <div>
+          <strong>Tentang skor.</strong> Skor yang ditampilkan adalah <strong>estimasi</strong> berdasarkan jumlah jawaban benar, bukan konversi resmi ETS. Gunakan untuk memantau progres belajarmu dari waktu ke waktu.
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ QUIZ ============ -->
+    <section id="view-quiz" class="view hidden">
+      <div class="quiz-topbar">
+        <div class="quiz-topbar-left">
+          <button class="btn btn-ghost btn-sm" id="btn-quit"><i data-lucide="x"></i> Keluar</button>
+          <div class="quiz-section-label" id="quiz-section-label">Section 1</div>
+        </div>
+        <div class="quiz-topbar-right">
+          <div class="timer-pill" id="timer-pill"><i data-lucide="timer"></i><span id="timer-text">35:00</span></div>
+          <button class="btn btn-primary btn-sm" id="btn-submit"><i data-lucide="check"></i> Selesai</button>
+        </div>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+      <div class="quiz-layout">
+        <div class="quiz-main">
+          <div class="directions-box" id="directions-box">
+            <button class="directions-toggle" id="directions-toggle"><i data-lucide="book-open"></i> Petunjuk <i data-lucide="chevron-down" class="chev"></i></button>
+            <p id="directions-text" class="hidden"></p>
+          </div>
+          <div id="question-card"></div>
+          <div class="quiz-nav">
+            <button class="btn btn-outline" id="btn-prev"><i data-lucide="arrow-left"></i> Sebelumnya</button>
+            <button class="btn btn-outline" id="btn-next">Berikutnya <i data-lucide="arrow-right"></i></button>
+          </div>
+        </div>
+        <aside class="quiz-side">
+          <div class="palette-head">
+            <span>Navigasi soal</span>
+            <button class="btn btn-ghost btn-sm" id="btn-palette-toggle"><i data-lucide="layout-grid"></i></button>
+          </div>
+          <div class="palette" id="palette"></div>
+          <div class="palette-legend">
+            <span class="legend"><span class="dot dot-done"></span> Terjawab</span>
+            <span class="legend"><span class="dot dot-current"></span> Aktif</span>
+            <span class="legend"><span class="dot dot-todo"></span> Belum</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ RESULT ============ -->
+    <section id="view-result" class="view hidden">
+      <div class="result-head">
+        <div class="result-icon"><i data-lucide="award"></i></div>
+        <h2>Hasil Latihan</h2>
+        <p class="muted" id="result-date"></p>
+      </div>
+      <div class="score-hero">
+        <div class="score-total">
+          <span class="score-label">Estimasi Skor Total</span>
+          <span class="score-value" id="result-total">-</span>
+          <span class="score-range muted">skala 310&ndash;677</span>
+        </div>
+      </div>
+      <div class="card-grid" id="result-sections"></div>
+      <p class="disclaimer"><i data-lucide="info"></i> Skor ini estimasi kasar dari jumlah jawaban benar, bukan konversi resmi ETS.</p>
+      <div class="result-actions">
+        <button class="btn btn-primary" id="btn-review"><i data-lucide="list-checks"></i> Lihat Pembahasan</button>
+        <button class="btn btn-outline" id="btn-retry"><i data-lucide="rotate-ccw"></i> Ulangi</button>
+        <button class="btn btn-ghost" data-nav="home"><i data-lucide="home"></i> Beranda</button>
+      </div>
+    </section>
+
+    <!-- ============ REVIEW ============ -->
+    <section id="view-review" class="view hidden">
+      <div class="review-head">
+        <h2>Pembahasan</h2>
+        <div class="review-filters">
+          <button class="btn btn-sm btn-outline filter-btn active" data-filter="all">Semua</button>
+          <button class="btn btn-sm btn-outline filter-btn" data-filter="wrong">Yang salah saja</button>
+          <button class="btn btn-ghost btn-sm" data-nav="home"><i data-lucide="home"></i> Beranda</button>
+        </div>
+      </div>
+      <div id="review-list"></div>
+    </section>
+
+    <!-- ============ HISTORY ============ -->
+    <section id="view-history" class="view hidden">
+      <h2>Riwayat Latihan</h2>
+      <p class="muted">Tersimpan di perangkat ini. Nanti bisa dipindah ke Supabase begitu database dihubungkan.</p>
+      <div id="history-list"></div>
+      <button class="btn btn-outline btn-sm" id="btn-clear-history"><i data-lucide="trash-2"></i> Hapus riwayat</button>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>TOEFL ITP Practice &middot; bank soal orisinal untuk latihan</span>
+      <span class="muted">Bukan produk resmi ETS.</span>
+    </div>
+  </footer>
+
+  <!-- Confirm submit modal -->
+  <div class="modal-backdrop hidden" id="modal-backdrop">
+    <div class="modal">
+      <h3>Selesaikan section ini?</h3>
+      <p class="muted" id="modal-text">Kamu masih punya soal yang belum dijawab.</p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="modal-cancel">Kembali</button>
+        <button class="btn btn-primary" id="modal-confirm">Ya, selesaikan</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/tts.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/results.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
