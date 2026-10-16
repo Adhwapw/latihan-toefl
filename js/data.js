@@ -23,7 +23,10 @@ const DataLayer = {
     // Supabase dulu; kalau gagal / belum dikonfigurasi, jatuh kembali ke JSON lokal.
     if (CONFIG.USE_SUPABASE && typeof window !== "undefined" && window.SupabaseDB && CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY) {
       try {
-        return await SupabaseDB.getSectionBundle(key);
+        const bundle = await SupabaseDB.getSectionBundle(key);
+        // Tabel kosong / belum di-seed -> pakai data lokal saja
+        if (bundle && bundle.questions && bundle.questions.length) return bundle;
+        console.warn("Tabel Supabase masih kosong, memakai data lokal.");
       } catch (e) {
         console.warn("Supabase tidak bisa dijangkau, memakai data lokal:", e);
       }
