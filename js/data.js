@@ -20,8 +20,13 @@ const DataLayer = {
 
   async getSectionBundle(key) {
     // Mengembalikan { meta, questions[] } yang sudah dinormalisasi dan bernomor urut.
-    if (CONFIG.USE_SUPABASE && window.SupabaseDB) {
-      return SupabaseDB.getSectionBundle(key);
+    // Supabase dulu; kalau gagal / belum dikonfigurasi, jatuh kembali ke JSON lokal.
+    if (CONFIG.USE_SUPABASE && typeof window !== "undefined" && window.SupabaseDB && CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY) {
+      try {
+        return await SupabaseDB.getSectionBundle(key);
+      } catch (e) {
+        console.warn("Supabase tidak bisa dijangkau, memakai data lokal:", e);
+      }
     }
     if (key === "listening") return normalizeListening(await this.loadJSON("listening"));
     if (key === "structure") return normalizeStructure(await this.loadJSON("structure"), await this.loadJSON("written_expression"));

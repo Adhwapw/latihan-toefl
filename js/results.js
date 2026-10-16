@@ -19,8 +19,8 @@ const Results = {
         <div class="sub">${r.pct}% jawaban benar</div>
       </div>`).join("");
 
-    this.saveHistory(mode, total, sectionResults);
     this.lastReview = { bundles, allAnswers, mode };
+    this.saveHistory(mode, total, sectionResults);
     App.showView("view-result");
     lucide.createIcons();
 
@@ -40,6 +40,21 @@ const Results = {
       });
       localStorage.setItem(key, JSON.stringify(hist.slice(0, 50)));
     } catch (e) { /* abaikan jika storage penuh */ }
+
+    // Simpan juga ke Supabase bila dikonfigurasi (diam-diam bila belum siap)
+    try {
+      if (CONFIG.USE_SUPABASE && typeof window !== "undefined" && window.SupabaseDB &&
+          CONFIG.SUPABASE_ANON_KEY && this.lastReview) {
+        const { bundles, allAnswers } = this.lastReview;
+        const perQuestion = [];
+        for (const k of Object.keys(bundles)) {
+          for (const q of bundles[k].questions) {
+            perQuestion.push({ id: q.id, selected: allAnswers[k][q.id], answer: q.answer });
+          }
+        }
+        window.SupabaseDB.saveAttempt(mode, total, sectionResults, perQuestion).catch(() => {});
+      }
+    } catch (e) {}
   },
 
   showReview(filter) {

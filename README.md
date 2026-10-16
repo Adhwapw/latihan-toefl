@@ -51,17 +51,15 @@ python3 -m http.server 8080
 
 ## Menghubungkan Supabase
 
-1. Buat proyek di [supabase.com](https://supabase.com), lalu jalankan `supabase/schema.sql` di SQL Editor.
-2. Isi bank soal:
+1. Buat proyek gratis di [supabase.com](https://supabase.com).
+2. Di SQL Editor, jalankan `supabase/schema.sql` (membuat tabel `questions`, `attempts`, `answers`).
+3. Di `js/config.js`, isi `SUPABASE_ANON_KEY` dengan **anon public key** (Project Settings → Data API). Key ini memang dirancang untuk dipakai di kode frontend; RLS yang menjaga datanya.
+4. Isi bank soal ke database:
    ```bash
    npm i @supabase/supabase-js
-   SUPABASE_URL=... SUPABASE_SERVICE_KEY=... node supabase/seed.mjs
+   SUPABASE_URL=https://xxx.supabase.co SUPABASE_SERVICE_KEY=... node supabase/seed.mjs
    ```
-3. Di `js/config.js`, isi `SUPABASE_URL` dan `SUPABASE_ANON_KEY`, ubah `USE_SUPABASE: true`.
-4. Di `index.html`, tambahkan sebelum `js/data.js`:
-   ```html
-   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-   <script src="supabase/supabase-client.js"></script>
-   ```
+   (`service_role` key ada di halaman Data API yang sama; jangan taruh di kode frontend.)
+5. Deploy ulang (otomatis bila repo terhubung ke Vercel).
 
-Setelah itu bank soal dibaca dari tabel `questions`, dan hasil latihan bisa disimpan ke tabel `attempts`/`answers`.
+Catatan: selama `SUPABASE_ANON_KEY` masih kosong atau tabel belum diisi, aplikasi otomatis memakai bank soal lokal di `/data`, jadi tetap jalan.
