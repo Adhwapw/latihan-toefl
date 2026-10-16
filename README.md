@@ -54,12 +54,14 @@ python3 -m http.server 8080
 1. Buat proyek gratis di [supabase.com](https://supabase.com).
 2. Di SQL Editor, jalankan `supabase/schema.sql` (membuat tabel `questions`, `attempts`, `answers`).
 3. Di `js/config.js`, isi `SUPABASE_ANON_KEY` dengan **anon public key** (Project Settings → Data API). Key ini memang dirancang untuk dipakai di kode frontend; RLS yang menjaga datanya.
-4. Isi bank soal ke database:
-   ```bash
-   npm i @supabase/supabase-js
-   SUPABASE_URL=https://xxx.supabase.co SUPABASE_SERVICE_KEY=... node supabase/seed.mjs
-   ```
-   (`service_role` key ada di halaman Data API yang sama; jangan taruh di kode frontend.)
+4. Isi bank soal ke database, pilih salah satu:
+   - **Termudah:** buka file `supabase/seed_part1.sql` sampai `seed_part4.sql` di repo, copy isi tiap file, paste ke SQL Editor Supabase, klik Run, berurutan dari part1 ke part4. Tiap part berisi 35 soal.
+   - **Via terminal:**
+     ```bash
+     npm i @supabase/supabase-js
+     SUPABASE_URL=https://xxx.supabase.co SUPABASE_SERVICE_KEY=... node supabase/seed.mjs
+     ```
+     (`service_role` key ada di halaman Data API yang sama; jangan taruh di kode frontend.)
 5. Deploy ulang (otomatis bila repo terhubung ke Vercel).
 
 Catatan: selama `SUPABASE_ANON_KEY` masih kosong atau tabel belum diisi, aplikasi otomatis memakai bank soal lokal di `/data`, jadi tetap jalan.
